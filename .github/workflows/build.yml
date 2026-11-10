@@ -1,0 +1,23 @@
+name: Build Global Snow Plugin
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Compile plugin
+        run: cl /nologo /O2 /LD GlobalSnow_Plugin.c /link /OUT:GlobalSnow.dll
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GlobalSnow-DLL
+          path: GlobalSnow.dll
